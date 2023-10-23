@@ -27,6 +27,7 @@ public class JdbcMemberRepository implements MemberRepository{
 
         try{
             conn = getConnection();
+//            pstmt = conn.prepareStatement(sql);
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, member.getName());
@@ -155,7 +156,8 @@ public class JdbcMemberRepository implements MemberRepository{
         }
         try{
             if(conn != null)
-                conn.close();
+//                conn.close(); --> 잘못 쓴 것.
+                close(conn);
         } catch (SQLException e){
             e.printStackTrace();
         }
