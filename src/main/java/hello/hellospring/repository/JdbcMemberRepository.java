@@ -163,7 +163,9 @@ public class JdbcMemberRepository implements MemberRepository{
         }
     }
 
-    /** Connection을 닫을 때 꼭 사용해야 한다.  */
+    /** Connection을 닫을 때 꼭 사용해야 한다.
+     * ResultSet, PreparedStatement 모두 Connection 으로부터 나온다.
+     * 따라서 Connection 은 따로 DataSourceUtils 로부터 releaseConnection 메서드를 써야 된다.*/
     private void close(Connection conn) throws SQLException{
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
