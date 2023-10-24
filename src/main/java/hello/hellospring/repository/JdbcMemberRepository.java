@@ -162,6 +162,8 @@ public class JdbcMemberRepository implements MemberRepository{
             e.printStackTrace();
         }
     }
+
+    /** Connection을 닫을 때 꼭 사용해야 한다.  */
     private void close(Connection conn) throws SQLException{
         DataSourceUtils.releaseConnection(conn, dataSource);
     }
