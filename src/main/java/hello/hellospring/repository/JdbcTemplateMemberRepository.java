@@ -31,6 +31,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
         parameters.put("name", member.getName());
 
         // 여기서 이어서 해야된다.
+        // 이어서 하기
     }
 
     @Override
