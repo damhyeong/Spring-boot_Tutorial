@@ -4,6 +4,7 @@ import hello.hellospring.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
@@ -30,13 +31,14 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", member.getName());
 
-        // 여기서 이어서 해야된다.
-        // 이어서 하기
+        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+        member.setId(key.longValue());
+        return member;
     }
 
     @Override
     public Optional<Member> findById(Long id) {
-        List<Member> result = jdbcTemplate.query("select * from member where id = ?", memberRowMapper());
+        List<Member> result = jdbcTemplate.query("select * from member where id = ?", memberRowMapper(), id);
         return result.stream().findAny();
     }
 
@@ -56,6 +58,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
             member.setId(rs.getLong("id"));
             member.setName(rs.getString("name"));
             return member;
-        }
+        };
     }
 }
